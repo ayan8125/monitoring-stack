@@ -21,6 +21,8 @@ services:
       - "9093:9093"
     volumes:
       - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    env_file:
+      - .env
 
   node-exporter:
     image: prom/node-exporter
