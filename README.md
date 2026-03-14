@@ -1,3 +1,5 @@
+
+
 # Terraform-Provisioned Monitoring & Alerting Stack  
 **Prometheus · Grafana · Alertmanager**
 
@@ -122,6 +124,70 @@ username: admin
 password: admin
 ```
 
+## Alert Configuration
+
+Alert Configuration
+
+```bash
+prometheus/alert.rules.yml
+```
+
+Example alert rule:
+
+```bash
+- alert: HighCPUUsage
+  expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) * 100) > 80
+  for: 1m
+  labels:
+    severity: warning
+  annotations:
+    summary: "High CPU usage detected"
+```
+
+When the condition remains true for the configured duration, Prometheus sends the alert to Alertmanager, which then triggers email notifications.
+
+## Alert Notification Flow
+```bash
+Node Exporter → Prometheus → Alert Rules → Alertmanager → Email Notification
+```
+
+Alertmanager handles:
+
+-  Alert routing
+
+-  Notification delivery
+
+-  Alert grouping and deduplication
+
+
+
+## Security Practices
+
+Sensitive values such as SMTP credentials are not stored in configuration files. Instead, they are injected using environment variables via .env.
+
+Make sure .env is excluded from version control.
+
+```bash
+.env
+```
+
+Example Monitoring Metrics
+
+The monitoring stack provides visibility into:
+
+- CPU usage
+
+- Memory utilization
+
+- Disk usage
+
+- Network traffic
+
+- System load
+
+  
+
+Grafana dashboards provide real-time visualization of these metrics.
 
 
 
