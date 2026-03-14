@@ -23,6 +23,9 @@ services:
       - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
     env_file:
       - .env
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--config.expand-env=true'
 
   node-exporter:
     image: prom/node-exporter
